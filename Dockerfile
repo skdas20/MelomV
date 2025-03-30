@@ -1,7 +1,7 @@
 # Use an official lightweight Python image
 FROM python:3.12-slim
 
-# Install system dependencies required for Pillow and others
+# Install system dependencies required for Pillow, OpenCV, and others
 RUN apt-get update && apt-get install -y \
     build-essential \
     zlib1g-dev \
@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     liblcms2-dev \
     libopenjp2-7-dev \
     libwebp-dev \
+    libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
