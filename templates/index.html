@@ -2,64 +2,250 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Mood Age Weather Music Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Melometeo - AI-powered music recommendations based on your mood, age, and weather">
+  <title>Melometeo | Smart Music Recommendations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <!-- Loading Screen -->
+  <!-- Main Content (hidden initially) -->
+  <div id="mainContent" style="display: none;">
+    <!-- Mobile Background Image: a2.png -->
+    <img id="mobileBackground" src="{{ url_for('static', filename='assets/a2.png') }}" alt="Background" class="mobile-only">
+    <!-- Desktop Background Video: b2.mp4 -->
+    <video id="bgVideo" autoplay muted loop class="desktop-only">
+      <source src="{{ url_for('static', filename='assets/b2.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="logo">Melometeo</div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active" data-section="home">Home</a></li>
+          <li><a href="#" data-section="about">About</a></li>
+          <li><a href="#" data-section="how-it-works">How It Works</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="content-section active">
+      <!-- Mobile Layout -->
+      <div id="mobileLayout" class="mobile-only">
+        <!-- Overlay: camera feed, quote, and Play button arranged vertically -->
+        <div id="mobileOverlay">
+          <div class="card">
+            <div class="card-header">
+              <h2>Your Music Profile</h2>
+            </div>
+            <div class="card-body">
+              <video id="mobileCamera" autoplay playsinline></video>
+              <p id="quoteMobile" class="quote">"Where words fail, music speaks."</p>
+              <button id="mobilePlayBtn" class="btn primary-btn" style="display: none;"><i class="fas fa-play"></i> Play Music</button>
+              <p id="resultMobile" class="result-text">Analyzing your mood...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Desktop Layout -->
+      <div id="desktopLayout" class="desktop-only">
+        <div class="content-wrapper">
+          <div id="desktopContent">
+            <div class="container">
+              <div class="row">
+                <div id="leftColumn" class="column">
+                  <div class="card">
+                    <div class="card-header">
+                      <h2>Your Personalized Experience</h2>
+                    </div>
+                    <div class="card-body">
+                      <!-- Camera feed (initially hidden) -->
+                      <video id="desktopCamera" autoplay playsinline style="display: none;"></video>
+                      <!-- Play button below camera (visible only after camera is active) -->
+                      <button id="desktopPlayBtn" class="btn primary-btn" style="display: none;"><i class="fas fa-play"></i> Play Music</button>
+                      <p id="resultDesktop" class="result-text">Ready to discover music that matches your mood</p>
+                    </div>
+                  </div>
+                </div>
+                <div id="rightColumn" class="column">
+                  <div class="card">
+                    <div class="card-header">
+                      <h2>Music Discovery</h2>
+                    </div>
+                    <div class="card-body">
+                      <div id="quoteContainer">
+                        <p id="quoteDesktop" class="quote">"Music is the literature of the heart."</p>
+                      </div>
+                      <!-- "Try It!" Button to activate camera on desktop -->
+                      <button id="tryItBtn" class="btn secondary-btn"><i class="fas fa-camera"></i> Start Experience</button>
+                      <div class="features">
+                        <div class="feature"><i class="fas fa-smile"></i> Mood Detection</div>
+                        <div class="feature"><i class="fas fa-cloud-sun"></i> Weather Integration</div>
+                        <div class="feature"><i class="fas fa-music"></i> Personalized Playlist</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="content-section">
+      <div class="container">
+        <div class="about-content">
+          <div class="section-header">
+            <h1>About <span class="highlight">Melometeo</span></h1>
+            <div class="section-divider"></div>
+          </div>
+          
+          <div class="about-grid">
+            <div class="about-text">
+              <h2>Our Story</h2>
+              <p>Melometeo began as a simple idea in the mind of <strong>Sumit Kumar Das</strong>. Fascinated by the relationship between emotions, environment, and music, he envisioned a system that could understand these connections and create personalized musical experiences.</p>
+              
+              <p>What started as a mere concept soon transformed into reality through Sumit's dedication and perseverance. With countless hours of research, coding, and refining algorithms, he breathed life into this project, creating a unique platform that bridges technology and human emotion.</p>
+              
+              <p>Today, Melometeo stands as a testament to innovation, combining artificial intelligence, weather data, and facial recognition to create a truly personalized music recommendation system that adapts to who you are and how you feel.</p>
+              
+              <div class="about-highlight-box">
+                <i class="fas fa-quote-left"></i>
+                <p>"Music has the power to transform our state of mind. My vision was to create a system that understands this connection and enhances it by adapting to each individual's unique circumstances."</p>
+                <div class="quote-author">- Sumit Kumar Das, Creator</div>
+              </div>
+            </div>
+            
+            <div class="about-image">
+              <div class="image-container">
+                <div class="tech-icons">
+                  <div class="tech-icon"><i class="fas fa-brain"></i><span>AI</span></div>
+                  <div class="tech-icon"><i class="fas fa-music"></i><span>Music</span></div>
+                  <div class="tech-icon"><i class="fas fa-cloud-sun"></i><span>Weather</span></div>
+                  <div class="tech-icon"><i class="fas fa-smile"></i><span>Emotion</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="content-section">
+      <div class="container">
+        <div class="hiw-content">
+          <div class="section-header">
+            <h1>How <span class="highlight">It Works</span></h1>
+            <div class="section-divider"></div>
+          </div>
+          
+          <div class="process-timeline">
+            <div class="process-item">
+              <div class="process-icon">
+                <i class="fas fa-camera"></i>
+                <div class="process-number">1</div>
+              </div>
+              <div class="process-details">
+                <h3>Capture Your Mood</h3>
+                <p>Our AI-powered computer vision system analyzes your facial expressions in real-time to determine your current emotional state, from happy and energetic to calm and reflective.</p>
+              </div>
+            </div>
+            
+            <div class="process-item">
+              <div class="process-icon">
+                <i class="fas fa-cloud-sun"></i>
+                <div class="process-number">2</div>
+              </div>
+              <div class="process-details">
+                <h3>Analyze Environment</h3>
+                <p>We detect your location and gather real-time weather data. Whether it's a sunny day, a rainy evening, or a snowy morning, weather influences our musical preferences in subtle ways.</p>
+              </div>
+            </div>
+            
+            <div class="process-item">
+              <div class="process-icon">
+                <i class="fas fa-user"></i>
+                <div class="process-number">3</div>
+              </div>
+              <div class="process-details">
+                <h3>Detect Age Group</h3>
+                <p>Our system estimates your age range to customize recommendations that align with generational music preferences and nostalgic connections.</p>
+              </div>
+            </div>
+            
+            <div class="process-item">
+              <div class="process-icon">
+                <i class="fas fa-cogs"></i>
+                <div class="process-number">4</div>
+              </div>
+              <div class="process-details">
+                <h3>Process Factors</h3>
+                <p>Our proprietary algorithm combines these three key factors—mood, weather, and age—to create a unique musical fingerprint that represents your current state and context.</p>
+              </div>
+            </div>
+            
+            <div class="process-item">
+              <div class="process-icon">
+                <i class="fas fa-headphones"></i>
+                <div class="process-number">5</div>
+              </div>
+              <div class="process-details">
+                <h3>Generate Playlist</h3>
+                <p>Using this fingerprint, we search through millions of tracks to curate a personalized playlist that resonates with you in this specific moment, enhancing your emotional experience.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hiw-cta">
+            <button id="tryItBtnHIW" class="btn primary-btn"><i class="fas fa-play"></i> Try It Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-logo">Melometeo</div>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 Melometeo. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Loading Screen (above everything else) -->
   <div id="loading">
     <!-- Mobile Loading Video: a1.mp4 -->
-    <video id="loadingVideoMobile" autoplay muted playsinline class="mobile-only">
+    <video id="loadingVideoMobile" autoplay muted playsinline loop class="mobile-only">
       <source src="{{ url_for('static', filename='assets/a1.mp4') }}" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <!-- Desktop Loading Video: b1.mp4 -->
-    <video id="loadingVideoDesktop" autoplay muted playsinline class="desktop-only">
+    <video id="loadingVideoDesktop" autoplay muted playsinline loop class="desktop-only">
       <source src="{{ url_for('static', filename='assets/b1.mp4') }}" type="video/mp4">
       Your browser does not support the video tag.
     </video>
-  </div>
-
-  <!-- Main Content (hidden until loading is complete) -->
-  <div id="mainContent" style="display: none;">
-    <!-- Mobile Layout -->
-    <div id="mobileLayout" class="mobile-only">
-      <!-- Mobile Background Image: a2.png -->
-      <img id="mobileBackground" src="{{ url_for('static', filename='assets/a2.png') }}" alt="Background">
-      <!-- Overlay: camera feed, quote, and Play button arranged vertically -->
-      <div id="mobileOverlay">
-        <video id="mobileCamera" autoplay playsinline></video>
-        <p id="quoteMobile">"Where words fail, music speaks."</p>
-        <!-- Play button appears only after camera is active -->
-        <button id="mobilePlayBtn" style="display: none;">Play</button>
-        <p id="resultMobile">Loading...</p>
-      </div>
-    </div>
-    
-    <!-- Desktop Layout -->
-    <div id="desktopLayout" class="desktop-only">
-      <!-- Desktop Background Video: b2.mp4 -->
-      <video id="bgVideo" autoplay muted loop>
-        <source src="{{ url_for('static', filename='assets/b2.mp4') }}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <div id="desktopContent">
-        <div id="leftColumn">
-          <!-- Camera feed (initially hidden) -->
-          <video id="desktopCamera" autoplay playsinline style="display: none;"></video>
-          <!-- Play button below camera (visible only after camera is active) -->
-          <button id="desktopPlayBtn" style="display: none;">Play</button>
-          <p id="resultDesktop">Loading...</p>
-        </div>
-        <div id="rightColumn">
-          <div id="quoteContainer">
-            <p id="quoteDesktop">"Music is the literature of the heart."</p>
-          </div>
-          <!-- "Try It!" Button to activate camera on desktop -->
-          <button id="tryItBtn">Try It!</button>
-        </div>
-      </div>
-    </div>
   </div>
   
   <script src="{{ url_for('static', filename='script.js') }}"></script>
