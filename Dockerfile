@@ -1,7 +1,7 @@
 # Use an official lightweight Python image
 FROM python:3.12-slim
 
-# Install system dependencies required for Pillow (including zlib)
+# Install system dependencies required for Pillow and others
 RUN apt-get update && apt-get install -y \
     build-essential \
     zlib1g-dev \
@@ -20,11 +20,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your application code
+# Copy the rest of the app
 COPY . .
 
 # Expose the port (adjust if needed)
 EXPOSE 8000
 
-# Start the application (adjust this command for your app)
-CMD ["python", "app.py"]
+# Start the application using gunicorn (adjust according to your project)
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
